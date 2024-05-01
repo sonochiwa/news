@@ -13,7 +13,7 @@ func Start() {
 	router.Use(gin.Logger())
 
 	server := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":9000",
 		Handler: router,
 	}
 
