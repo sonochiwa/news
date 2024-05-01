@@ -9,7 +9,7 @@ import (
 func Setup() *gin.Engine {
 	router := gin.New()
 
-	router.LoadHTMLGlob("./web/templates/*")
+	router.LoadHTMLGlob("/var/www/html/web/templates/*")
 
 	router.GET("/", indexHandler)
 	router.GET("/sign-in", signInHandler)
