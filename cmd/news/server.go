@@ -8,13 +8,13 @@ import (
 )
 
 func Start() {
-	r := news.Setup()
+	router := news.Setup()
 
-	r.Use(gin.Logger())
+	router.Use(gin.Logger())
 
 	server := &http.Server{
 		Addr:    ":8080",
-		Handler: r,
+		Handler: router,
 	}
 
 	server.ListenAndServe()
