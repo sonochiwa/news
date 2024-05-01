@@ -1,4 +1,4 @@
-package models
+package news
 
 type User struct {
 	ID       int64

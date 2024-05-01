@@ -1,11 +1,7 @@
 package main
 
-import (
-	"news/routes"
-)
+import "news/cmd/news"
 
 func main() {
-	r := routes.Register()
-
-	r.Run()
+	news.Start()
 }
