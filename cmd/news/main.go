@@ -1,14 +1,13 @@
 package news
 
 import (
-	"net/http"
-	"news/internal/news"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"news/internal/transport/rest"
 )
 
-func Start() {
-	router := news.Setup()
+func Run() {
+	router := rest.Setup()
 
 	router.Use(gin.Logger())
 

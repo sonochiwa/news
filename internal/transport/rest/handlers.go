@@ -1,4 +1,4 @@
-package news
+package rest
 
 import (
 	"net/http"
@@ -10,6 +10,7 @@ func Setup() *gin.Engine {
 	router := gin.New()
 
 	router.LoadHTMLGlob("/var/www/html/web/templates/*")
+	//router.LoadHTMLGlob("./web/templates/*")
 
 	router.GET("/", indexHandler)
 	router.GET("/sign-in", signInHandler)
