@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"news/configs"
+	"news/internal/configs"
 )
 
 type Instance interface {

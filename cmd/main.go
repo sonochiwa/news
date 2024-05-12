@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"news/configs"
-	"news/internal/common/postgres"
+	"news/internal/configs"
 	"news/internal/global"
-	"news/internal/transport/rest"
+	"news/internal/handlers"
+	"news/internal/instances/postgres"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,7 +26,7 @@ func main() {
 		gCtx.Inst().Postgres = pg
 	}
 
-	router := rest.Setup()
+	router := handlers.Setup()
 	router.Use(gin.Logger())
 
 	server := &http.Server{

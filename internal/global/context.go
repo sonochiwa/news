@@ -1,31 +1,31 @@
 package global
 
 import (
-	"news/configs"
-	"news/internal/instance"
+	"news/internal/configs"
+	"news/internal/instances"
 )
 
 type Context interface {
 	Config() *configs.Config
-	Inst() *instance.Instances
+	Inst() *instances.Instances
 }
 
 type gCtx struct {
 	config *configs.Config
-	inst   *instance.Instances
+	inst   *instances.Instances
 }
 
 func (g *gCtx) Config() *configs.Config {
 	return g.config
 }
 
-func (g *gCtx) Inst() *instance.Instances {
+func (g *gCtx) Inst() *instances.Instances {
 	return g.inst
 }
 
 func New(config *configs.Config) Context {
 	return &gCtx{
 		config: config,
-		inst:   &instance.Instances{},
+		inst:   &instances.Instances{},
 	}
 }
