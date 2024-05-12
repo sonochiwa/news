@@ -1,6 +1,10 @@
 export GOOSE_DRIVER=postgres
 export GOOSE_DBSTRING=postgres://admin:admin@localhost/news?sslmode=disable
 
+run:
+	@go build -o ./build/main ./main.go; \
+	./build/main
+
 export-env:
 	@export GOOSE_DRIVER=$(GOOSE_DRIVER);
 	@export GOOSE_DBSTRING=$(GOOSE_DBSTRING);
