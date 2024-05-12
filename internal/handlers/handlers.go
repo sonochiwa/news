@@ -1,54 +1,25 @@
 package handlers
 
 import (
-	"net/http"
+	"news/internal/services"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Setup() *gin.Engine {
+type handlers struct {
+	service services.Services
+}
+
+func New(service services.Services) *gin.Engine {
+	handler := handlers{service: service}
+
 	router := gin.New()
 
-	//router.LoadHTMLGlob("/var/www/html/web/templates/*")
-	router.LoadHTMLGlob("./web/templates/*")
-
-	router.GET("/", indexHandler)
-	router.GET("/sign-in", signInHandler)
-	router.GET("/sign-up", signUpHandler)
-	router.GET("/profile", profileHandler)
-	router.GET("/my", myHandler)
+	users := router.Group("/users")
+	{
+		users.GET("/", handler.getAllUsers)
+		users.GET("/:id", handler.getUserByID)
+	}
 
 	return router
-}
-
-func indexHandler(c *gin.Context) {
-	data := gin.H{
-		"title": "News | Главная",
-	}
-
-	c.HTML(http.StatusOK, "index.tmpl", data)
-}
-
-func signInHandler(c *gin.Context) {
-	data := gin.H{
-		"title": "News | Вход",
-	}
-
-	c.HTML(http.StatusOK, "sign-in.tmpl", data)
-}
-
-func signUpHandler(c *gin.Context) {
-	data := gin.H{
-		"title": "News | Регистрация",
-	}
-
-	c.HTML(http.StatusOK, "sign-up.tmpl", data)
-}
-
-func profileHandler(c *gin.Context) {
-
-}
-
-func myHandler(c *gin.Context) {
-
 }

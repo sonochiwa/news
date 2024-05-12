@@ -4,16 +4,19 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"news/internal/configs"
+	"news/configs"
 	"news/internal/global"
 	"news/internal/handlers"
 	"news/internal/instances/postgres"
+	"news/internal/repositories"
+	"news/internal/services"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	config := configs.New()
+
 	gin.SetMode(getGinMode(config.Mode))
 
 	gCtx := global.New(&config)
@@ -26,17 +29,24 @@ func main() {
 		gCtx.Inst().Postgres = pg
 	}
 
-	router := handlers.Setup()
-	router.Use(gin.Logger())
+	repository := repositories.New(*gCtx.Inst())
+	service := services.New(repository)
+	handler := handlers.New(service)
+
+	handler.Use(gin.Logger())
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf("%s:%s", config.Server.Host, config.Server.Port),
-		Handler: router,
+		Handler: handler,
 	}
 
 	fmt.Printf("Server running on %s://%s\n", config.Server.Protocol, server.Addr)
 
-	server.ListenAndServe()
+	err := server.ListenAndServe()
+	if err != nil {
+		log.Fatalf("failed to start server: %v", err)
+		return
+	}
 }
 
 func getGinMode(key string) string {

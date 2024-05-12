@@ -1,13 +1,13 @@
 package postgres
 
 import (
-	"news/internal/configs"
+	"news/configs"
 
 	_ "github.com/lib/pq"
 )
 
 func New(config configs.Postgres) (Instance, error) {
-	inst := &pgInstance{}
+	inst := &Postgres{}
 
 	err := inst.Connect(config)
 	if err != nil {

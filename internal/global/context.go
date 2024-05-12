@@ -1,7 +1,7 @@
 package global
 
 import (
-	"news/internal/configs"
+	"news/configs"
 	"news/internal/instances"
 )
 

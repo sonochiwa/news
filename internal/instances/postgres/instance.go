@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"news/internal/configs"
+	"news/configs"
 )
 
 type Instance interface {
@@ -15,14 +15,14 @@ type Instance interface {
 	QueryRow(query string, args ...interface{}) *sql.Row
 }
 
-type pgInstance struct {
+type Postgres struct {
 	db *sql.DB
 }
 
-func (p *pgInstance) Connect(config configs.Postgres) error {
+func (p *Postgres) Connect(config configs.Postgres) error {
 	connectionString := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s sslmode=%s",
-		config.Host, config.Username, config.Password, config.DBName, config.SSLMode,
+		"host=%s port= %s user=%s password=%s dbname=%s sslmode=%s",
+		config.Host, config.Port, config.Username, config.Password, config.DBName, config.SSLMode,
 	)
 
 	db, err := sql.Open("postgres", connectionString)
@@ -35,7 +35,7 @@ func (p *pgInstance) Connect(config configs.Postgres) error {
 	return nil
 }
 
-func (p *pgInstance) Close() error {
+func (p *Postgres) Close() error {
 	if p.db == nil {
 		return nil
 	}
@@ -43,7 +43,7 @@ func (p *pgInstance) Close() error {
 	return p.db.Close()
 }
 
-func (p *pgInstance) Ping() error {
+func (p *Postgres) Ping() error {
 	if p.db == nil {
 		return nil
 	}
@@ -51,7 +51,7 @@ func (p *pgInstance) Ping() error {
 	return p.db.Ping()
 }
 
-func (p *pgInstance) Query(query string, args ...interface{}) (*sql.Rows, error) {
+func (p *Postgres) Query(query string, args ...interface{}) (*sql.Rows, error) {
 	if p.db == nil {
 		return nil, errors.New("database: no connection")
 	}
@@ -59,7 +59,7 @@ func (p *pgInstance) Query(query string, args ...interface{}) (*sql.Rows, error)
 	return p.db.Query(query, args...)
 }
 
-func (p *pgInstance) QueryRow(query string, args ...interface{}) *sql.Row {
+func (p *Postgres) QueryRow(query string, args ...interface{}) *sql.Row {
 	if p.db == nil {
 		return nil
 	}
