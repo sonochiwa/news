@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"news/configs"
+	"news/internal/common/postgres"
+	"news/internal/global"
 	"news/internal/transport/rest"
 
 	"github.com/gin-gonic/gin"
@@ -12,10 +14,17 @@ import (
 
 func main() {
 	config := configs.New()
-
 	gin.SetMode(getGinMode(config.Mode))
 
-	//gCtx := global.New(context.Background(), &config)
+	gCtx := global.New(&config)
+
+	{
+		pg, err := postgres.New(config.Postgres)
+		if err != nil {
+			log.Fatalf("failed to connect to postgres: %v", err)
+		}
+		gCtx.Inst().Postgres = pg
+	}
 
 	router := rest.Setup()
 	router.Use(gin.Logger())
