@@ -1,5 +1,5 @@
 -- +goose Up
-CREATE TYPE permission_type AS ENUM ('super', 'watcher');
+CREATE TYPE permission_type AS ENUM ('super', 'moderator');
 CREATE TABLE permissions
 (
     user_id INTEGER PRIMARY KEY,
