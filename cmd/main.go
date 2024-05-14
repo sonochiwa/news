@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	config := configs.New()
+	config := configs.GlobalConfig
 
 	gin.SetMode(getGinMode(config.Mode))
 

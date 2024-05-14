@@ -8,10 +8,17 @@ import (
 	"github.com/spf13/viper"
 )
 
+var GlobalConfig Config
+
 type Config struct {
 	Mode     string
+	Auth     Auth
 	Server   Server
 	Postgres Postgres
+}
+
+type Auth struct {
+	SecretKey string
 }
 
 type Server struct {
@@ -35,12 +42,16 @@ func init() {
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatal(fmt.Errorf("viper.ReadInConfig: %v", err))
 	}
+
+	GlobalConfig = New()
 }
 
 func New() Config {
 	config := Config{
 		Mode: getString("MODE"),
-
+		Auth: Auth{
+			SecretKey: getString("SECRET_KEY"),
+		},
 		Server: Server{
 			Protocol: getString("SRV_PROTOCOL"),
 			Host:     getString("SRV_HOST"),
