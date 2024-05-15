@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"news/internal/instances"
-	"news/internal/repositories/users"
+	"news/pkg/instances"
+	"news/pkg/repositories/users"
 )
 
 type Repositories struct {

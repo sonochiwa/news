@@ -1,8 +1,8 @@
 package users
 
 import (
-	"news/internal/instances/postgres"
-	"news/internal/models"
+	"news/pkg/instances/postgres"
+	"news/pkg/models"
 
 	"github.com/goccy/go-json"
 )

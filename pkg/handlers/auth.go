@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"net/http"
-	"news/internal/models"
-	"news/internal/utils"
+	"news/pkg/models"
+	"news/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 )

@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"net/http"
-	"news/internal/middleware"
-	"news/internal/services"
+	"news/pkg/middleware"
+	"news/pkg/services"
 
 	"github.com/gin-gonic/gin"
 )

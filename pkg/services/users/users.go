@@ -1,8 +1,8 @@
 package users
 
 import (
-	"news/internal/models"
-	"news/internal/repositories"
+	"news/pkg/models"
+	"news/pkg/repositories"
 )
 
 type Service struct {

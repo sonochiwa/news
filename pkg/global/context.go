@@ -2,7 +2,7 @@ package global
 
 import (
 	"news/configs"
-	"news/internal/instances"
+	"news/pkg/instances"
 )
 
 type Context interface {

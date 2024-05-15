@@ -5,11 +5,11 @@ import (
 	"log"
 	"net/http"
 	"news/configs"
-	"news/internal/handlers"
-	"news/internal/instances/postgres"
-	"news/internal/repositories"
-	"news/internal/services"
 	"news/pkg/global"
+	"news/pkg/handlers"
+	"news/pkg/instances/postgres"
+	"news/pkg/repositories"
+	"news/pkg/services"
 
 	"github.com/gin-gonic/gin"
 )
