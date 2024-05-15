@@ -18,7 +18,6 @@ func main() {
 	config := configs.GlobalConfig
 
 	gin.SetMode(getGinMode(config.Mode))
-
 	gCtx := global.New(&config)
 
 	{
