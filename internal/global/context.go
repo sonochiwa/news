@@ -1,8 +1,8 @@
 package global
 
 import (
-	"news/configs"
-	"news/pkg/instances"
+	"github.com/sonochiwa/news/configs"
+	"github.com/sonochiwa/news/internal/instances"
 )
 
 type Context interface {

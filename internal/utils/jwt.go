@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"news/configs"
 	"time"
+
+	"github.com/sonochiwa/news/configs"
 
 	"github.com/dgrijalva/jwt-go"
 )

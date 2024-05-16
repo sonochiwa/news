@@ -1,7 +1,7 @@
 package instances
 
 import (
-	"news/pkg/instances/postgres"
+	"github.com/sonochiwa/news/internal/instances/postgres"
 )
 
 type Instances struct {

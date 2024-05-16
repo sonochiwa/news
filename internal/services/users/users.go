@@ -1,9 +1,9 @@
 package users
 
 import (
-	"news/pkg/models"
-	"news/pkg/repositories"
-	"news/pkg/utils"
+	"github.com/sonochiwa/news/internal/models"
+	"github.com/sonochiwa/news/internal/repositories"
+	"github.com/sonochiwa/news/internal/utils"
 )
 
 type Service struct {

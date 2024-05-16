@@ -2,7 +2,8 @@ package middleware
 
 import (
 	"net/http"
-	"news/configs"
+
+	"github.com/sonochiwa/news/configs"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"

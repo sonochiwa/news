@@ -1,7 +1,7 @@
 package postgres
 
 import (
-	"news/configs"
+	"github.com/sonochiwa/news/configs"
 
 	_ "github.com/lib/pq"
 )

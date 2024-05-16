@@ -1,8 +1,8 @@
 package services
 
 import (
-	"news/pkg/repositories"
-	"news/pkg/services/users"
+	"github.com/sonochiwa/news/internal/repositories"
+	"github.com/sonochiwa/news/internal/services/users"
 )
 
 type Services struct {

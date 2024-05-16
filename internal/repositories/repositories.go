@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"news/pkg/instances"
-	"news/pkg/repositories/users"
+	"github.com/sonochiwa/news/internal/instances"
+	"github.com/sonochiwa/news/internal/repositories/users"
 )
 
 type Repositories struct {

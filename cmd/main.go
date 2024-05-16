@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"news/configs"
-	"news/pkg/global"
-	"news/pkg/handlers"
-	"news/pkg/instances/postgres"
-	"news/pkg/repositories"
-	"news/pkg/services"
+
+	"github.com/sonochiwa/news/configs"
+	"github.com/sonochiwa/news/internal/global"
+	"github.com/sonochiwa/news/internal/handlers"
+	"github.com/sonochiwa/news/internal/instances/postgres"
+	"github.com/sonochiwa/news/internal/repositories"
+	"github.com/sonochiwa/news/internal/services"
 
 	"github.com/gin-gonic/gin"
 )

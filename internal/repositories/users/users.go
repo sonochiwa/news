@@ -2,8 +2,9 @@ package users
 
 import (
 	"errors"
-	"news/pkg/instances/postgres"
-	"news/pkg/models"
+
+	"github.com/sonochiwa/news/internal/instances/postgres"
+	"github.com/sonochiwa/news/internal/models"
 
 	"github.com/goccy/go-json"
 )

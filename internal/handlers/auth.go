@@ -2,8 +2,9 @@ package handlers
 
 import (
 	"net/http"
-	"news/pkg/models"
-	"news/pkg/utils"
+
+	"github.com/sonochiwa/news/internal/models"
+	utils2 "github.com/sonochiwa/news/internal/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,12 +23,12 @@ func (h handlers) signIn(c *gin.Context) {
 		return
 	}
 
-	if user.Email != cred.Email || !utils.CheckPasswordHash(user.PasswordHash, cred.PasswordHash) {
+	if user.Email != cred.Email || !utils2.CheckPasswordHash(user.PasswordHash, cred.PasswordHash) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid credentials"})
 		return
 	}
 
-	token, err := utils.GenerateJWT(user.Username)
+	token, err := utils2.GenerateJWT(user.Username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
 		return
@@ -43,7 +44,7 @@ func (h handlers) signUp(c *gin.Context) {
 		return
 	}
 
-	if !utils.IsEmailValid(user.Email) {
+	if !utils2.IsEmailValid(user.Email) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid email"})
 		return
 	}
