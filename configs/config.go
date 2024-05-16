@@ -22,9 +22,8 @@ type Auth struct {
 }
 
 type Server struct {
-	Protocol string
-	Host     string
-	Port     string
+	Host string
+	Port string
 }
 
 type Postgres struct {
@@ -53,9 +52,8 @@ func New() Config {
 			SecretKey: getString("SECRET_KEY"),
 		},
 		Server: Server{
-			Protocol: getString("SRV_PROTOCOL"),
-			Host:     getString("SRV_HOST"),
-			Port:     getString("SRV_PORT"),
+			Host: getString("SRV_HOST"),
+			Port: getString("SRV_PORT"),
 		},
 		Postgres: Postgres{
 			Username: getString("PG_USERNAME"),

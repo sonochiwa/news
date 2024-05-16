@@ -41,7 +41,7 @@ func main() {
 		Handler: handler,
 	}
 
-	fmt.Printf("Server running on %s://%s\n", config.Server.Protocol, server.Addr)
+	fmt.Printf("Server running on http://%s\n", server.Addr)
 
 	err := server.ListenAndServe()
 	if err != nil {
