@@ -20,7 +20,7 @@ func New(service services.Services) *gin.Engine {
 	router.Use(gin.Logger())
 
 	// Удалить потом
-	router.Static("/templates", "./templates/")
+	router.Static("/home/user/news/templates", "./templates/")
 
 	router.GET("/", func(c *gin.Context) {
 		c.Header("Content-Type", "text/html")
