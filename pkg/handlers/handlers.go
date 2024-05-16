@@ -19,14 +19,6 @@ func New(service services.Services) *gin.Engine {
 
 	router.Use(gin.Logger())
 
-	// Удалить потом
-	router.Static("/templates", "./templates/")
-
-	router.GET("/", func(c *gin.Context) {
-		c.Header("Content-Type", "text/html")
-		c.File("templates/index.html")
-	})
-
 	router.POST("/sign-in", handler.signIn)
 	router.POST("/sign-up", handler.signUp)
 
