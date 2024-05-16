@@ -14,6 +14,7 @@ type Services interface {
 	GetAllUsers() (*[]models.User, error)
 	GetUserByID(id int64) (*models.User, error)
 	CreateUser(user *models.User) (*models.User, error)
+	CheckUser(email string) (result *models.SignInUser, err error)
 	GetUserByEmail(email string) (result *models.User, err error)
 }
 
@@ -38,6 +39,15 @@ func (s *Service) CreateUser(user *models.User) (*models.User, error) {
 		return nil, err
 	}
 	return user, nil
+}
+
+func (s *Service) CheckUser(email string) (result *models.SignInUser, err error) {
+	result, err = s.repository.Users.CheckUser(email)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
 func (s *Service) GetUserByEmail(email string) (result *models.User, err error) {

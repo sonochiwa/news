@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h handlers) getAllUsers(c *gin.Context) {
+func (h Handlers) getAllUsers(c *gin.Context) {
 	result, err := h.service.Users.GetAllUsers()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
@@ -16,7 +16,7 @@ func (h handlers) getAllUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, result)
 }
 
-func (h handlers) getUserByID(c *gin.Context) {
+func (h Handlers) getUserByID(c *gin.Context) {
 	id := c.Param("id")
 	idInt, _ := strconv.Atoi(id)
 	result, err := h.service.Users.GetUserByID(int64(idInt))

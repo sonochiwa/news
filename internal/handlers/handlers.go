@@ -1,40 +1,36 @@
 package handlers
 
 import (
-	"net/http"
-
 	"github.com/sonochiwa/news/internal/middleware"
 	"github.com/sonochiwa/news/internal/services"
 
 	"github.com/gin-gonic/gin"
 )
 
-type handlers struct {
+type Handlers struct {
 	service services.Services
 }
 
-func New(service services.Services) *gin.Engine {
-	handler := handlers{service: service}
+func New(service services.Services) *Handlers {
+	return &Handlers{service: service}
+}
 
+func (h *Handlers) InitRoutes() *gin.Engine {
 	router := gin.New()
 
-	router.Use(gin.Logger())
-
-	router.POST("/sign-in", handler.signIn)
-	router.POST("/sign-up", handler.signUp)
-
-	auth := router.Group("/", middleware.AuthMiddleware())
+	auth := router.Group("/auth")
 	{
-		auth.GET("/protected", func(c *gin.Context) {
-			username := c.MustGet("username").(string)
-			c.JSON(http.StatusOK, gin.H{"message": "protected route accessed by " + username})
-		})
+		auth.POST("/sign-in", h.signIn)
+		auth.POST("/sign-up", h.signUp)
 	}
 
-	users := auth.Group("/users")
+	api := router.Group("/api", middleware.AuthMiddleware())
 	{
-		users.GET("/", handler.getAllUsers)
-		users.GET("/:id", handler.getUserByID)
+		users := api.Group("/users")
+		{
+			users.GET("/", h.getAllUsers)
+			users.GET("/:id", h.getUserByID)
+		}
 	}
 
 	return router

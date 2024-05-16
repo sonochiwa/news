@@ -32,7 +32,7 @@ func main() {
 
 	repository := repositories.New(*gCtx.Inst())
 	service := services.New(repository)
-	handler := handlers.New(service)
+	handler := handlers.New(service).InitRoutes()
 
 	handler.Use(gin.Logger())
 

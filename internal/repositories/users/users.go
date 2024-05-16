@@ -17,6 +17,7 @@ type Repository interface {
 	GetAllUsers() (*[]models.User, error)
 	GetUserByID(id int64) (*models.User, error)
 	CreateUser(user *models.User) (result *models.User, err error)
+	CheckUser(email string) (*models.SignInUser, error)
 	GetUserByEmail(email string) (*models.User, error)
 }
 
@@ -67,6 +68,26 @@ func (p *Postgres) CreateUser(user *models.User) (result *models.User, err error
 	err = json.Unmarshal(bytes, &result)
 	if err != nil {
 		return nil, err
+	}
+
+	return result, nil
+}
+
+func (p *Postgres) CheckUser(email string) (result *models.SignInUser, err error) {
+	var bytes []byte
+
+	err = p.db.QueryRow(checkUser, email).Scan(&bytes)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(bytes, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(result.Email) == 0 {
+		return nil, errors.New("user not found")
 	}
 
 	return result, nil

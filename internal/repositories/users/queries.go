@@ -24,10 +24,19 @@ SELECT row_to_json(new_user)
 FROM new_user;
 `
 
+	checkUser = `
+SELECT (row_to_json(users))
+FROM (
+SELECT email, password_hash as password
+FROM users AS u
+WHERE email = $1
+AND deleted_at IS NULL) users
+`
+
 	getUserByEmail = `
 SELECT (row_to_json(users))
 FROM (
-SELECT id, username, email, password_hash as password
+SELECT id, email, password_hash as password
 FROM users AS u
 WHERE email = $1
 AND deleted_at IS NULL) users
