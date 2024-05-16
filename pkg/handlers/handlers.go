@@ -38,7 +38,7 @@ func New(service services.Services) *gin.Engine {
 		})
 	}
 
-	users := router.Group("/users")
+	users := auth.Group("/users")
 	{
 		users.GET("/", handler.getAllUsers)
 		users.GET("/:id", handler.getUserByID)

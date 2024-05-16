@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"net/http"
+	"news/configs"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-			return []byte("your-secret-key"), nil
+			return []byte(configs.GlobalConfig.Auth.SecretKey), nil
 		})
 
 		if err != nil || !token.Valid {
@@ -27,8 +28,9 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		claims := token.Claims.(jwt.MapClaims)
-		username := claims["username"].(string)
-		c.Set("username", username)
+		email := claims["email"].(string)
+
+		c.Set("email", email)
 
 		c.Next()
 	}
