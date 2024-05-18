@@ -18,7 +18,6 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 	router := gin.New()
 
 	router.Use(gin.Logger())
-	router.Use(middleware.DebugMiddleware())
 	router.Use(middleware.CORSMiddleware())
 
 	auth := router.Group("/auth")
