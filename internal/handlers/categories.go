@@ -10,6 +10,7 @@ func (h *Handlers) getAllCategories(c *gin.Context) {
 	result, err := h.service.Categories.GetAllCategories()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
 	}
 
 	c.JSON(http.StatusOK, result)

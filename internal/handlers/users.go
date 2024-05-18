@@ -22,9 +22,11 @@ func (h Handlers) getUserByID(c *gin.Context) {
 	result, err := h.service.Users.GetUserByID(int64(idInt))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
 	}
 	if result == nil {
 		c.JSON(http.StatusNotFound, gin.H{"message": "user not found"})
+		return
 	}
 
 	c.JSON(http.StatusOK, result)
