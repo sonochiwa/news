@@ -1,10 +1,9 @@
 package handlers
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/sonochiwa/news/internal/middleware"
 	"github.com/sonochiwa/news/internal/services"
-
-	"github.com/gin-gonic/gin"
 )
 
 type Handlers struct {
@@ -18,6 +17,7 @@ func New(service services.Services) *Handlers {
 func (h *Handlers) InitRoutes() *gin.Engine {
 	router := gin.New()
 
+	router.Use(gin.Logger())
 	router.Use(middleware.CORSMiddleware())
 
 	auth := router.Group("/auth")
@@ -28,30 +28,15 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 
 	api := router.Group("/api")
 	{
-		posts := api.Group("/posts")
-		{
-			posts.GET("/", h.getAllPosts)
-		}
+		api.GET("/posts", h.getAllPosts)
+		api.GET("/categories", h.getAllCategories)
+		api.GET("/languages", h.getAllLanguages)
+	}
 
-		categories := api.Group("/categories")
-		{
-			categories.GET("/", h.getAllCategories)
-		}
-
-		languages := api.Group("/languages")
-		{
-			languages.GET("/", h.getAllLanguages)
-		}
-
-		authorized := router.Group("/api") //middleware.AuthMiddleware()
-
-		{
-			users := authorized.Group("/users")
-			{
-				users.GET("/", h.getAllUsers)
-				users.GET("/:id", h.getUserByID)
-			}
-		}
+	authorizedApi := router.Group("/api") //middleware.AuthMiddleware()
+	{
+		authorizedApi.GET("/", h.getAllUsers)
+		authorizedApi.GET("/:id", h.getUserByID)
 	}
 
 	return router

@@ -34,8 +34,6 @@ func main() {
 	service := services.New(repository)
 	handler := handlers.New(service).InitRoutes()
 
-	handler.Use(gin.Logger())
-
 	server := &http.Server{
 		Addr:    fmt.Sprintf("%s:%s", config.Server.Host, config.Server.Port),
 		Handler: handler,
