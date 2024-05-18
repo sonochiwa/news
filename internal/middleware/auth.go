@@ -24,13 +24,13 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		email, err := utils.ParseToken(tokenParts[1])
+		login, err := utils.ParseToken(tokenParts[1])
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
 			c.Abort()
 			return
 		}
 
-		c.Set("email", email)
+		c.Set("login", login)
 	}
 }

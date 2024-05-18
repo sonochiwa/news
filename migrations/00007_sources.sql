@@ -3,7 +3,7 @@ CREATE TYPE source_type AS ENUM ('telegram');
 CREATE TABLE sources
 (
     id         SERIAL PRIMARY KEY,
-    title      VARCHAR(120) UNIQUE NOT NULL,
+    title      TEXT UNIQUE NOT NULL,
     url        TEXT UNIQUE         NOT NULL,
     type       source_type         NOT NULL,
     country_id INTEGER             NOT NULL,

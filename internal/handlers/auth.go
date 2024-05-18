@@ -16,23 +16,18 @@ func (h *Handlers) signUp(c *gin.Context) {
 		return
 	}
 
-	if !utils.IsEmailValid(user.Email) {
+	if !utils.IsEmailValid(user.Login) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid email"})
 		return
 	}
 
-	if len(user.Email) == 3 {
+	if len(user.Login) == 3 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "no email provided and len must be greater than 3"})
 		return
 	}
 
 	if len(user.PasswordHash) < 8 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "password must be at least 8 characters"})
-		return
-	}
-
-	if len(user.Username) < 3 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "username must be at least 3 characters"})
 		return
 	}
 
@@ -52,23 +47,23 @@ func (h *Handlers) signIn(c *gin.Context) {
 		return
 	}
 
-	cred, err := h.service.Users.CheckUser(input.Email)
+	cred, err := h.service.Users.CheckUser(input.Login)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	if input.Email != cred.Email || !utils.CheckPasswordHash(input.Password, cred.Password) {
+	if input.Login != cred.Login || !utils.CheckPasswordHash(input.Password, cred.Password) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid credentials"})
 		return
 	}
 
-	user, _ := h.service.Users.GetUserByEmail(input.Email)
+	user, _ := h.service.Users.GetUserByEmail(input.Login)
 
-	fmt.Println(user.Email)
+	fmt.Println(user.Login)
 
-	token, err := utils.GenerateJWT(user.Email)
+	token, err := utils.GenerateJWT(user.Login)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
 		return

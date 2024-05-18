@@ -1,7 +1,9 @@
 -- +goose Up
 CREATE TABLE categories
 (
-    id SERIAL PRIMARY KEY
+    id    SERIAL PRIMARY KEY,
+    title TEXT,
+    tag   TEXT
 );
 
 -- +goose Down

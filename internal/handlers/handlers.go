@@ -18,18 +18,33 @@ func New(service services.Services) *Handlers {
 func (h *Handlers) InitRoutes() *gin.Engine {
 	router := gin.New()
 
+	router.Use(middleware.CORSMiddleware())
+
 	auth := router.Group("/auth")
 	{
 		auth.POST("/sign-in", h.signIn)
 		auth.POST("/sign-up", h.signUp)
 	}
 
-	api := router.Group("/api", middleware.AuthMiddleware())
+	api := router.Group("/api")
 	{
-		users := api.Group("/users")
+		categories := api.Group("/categories")
 		{
-			users.GET("/", h.getAllUsers)
-			users.GET("/:id", h.getUserByID)
+			categories.GET("/", h.getAllCategories)
+		}
+
+		languages := api.Group("/languages")
+		{
+			languages.GET("", h.getAllLanguages)
+		}
+
+		authorized := router.Group("/api", middleware.AuthMiddleware())
+		{
+			users := authorized.Group("/users")
+			{
+				users.GET("/", h.getAllUsers)
+				users.GET("/:id", h.getUserByID)
+			}
 		}
 	}
 

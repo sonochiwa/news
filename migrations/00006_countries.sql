@@ -2,7 +2,7 @@
 CREATE TABLE countries
 (
     id   SERIAL PRIMARY KEY,
-    name VARCHAR(120) UNIQUE NOT NULL
+    name TEXT UNIQUE NOT NULL
 );
 
 -- +goose Down

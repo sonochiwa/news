@@ -1,0 +1,7 @@
+package posts
+
+const (
+	getAllPosts = `
+
+`
+)

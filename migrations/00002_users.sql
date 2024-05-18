@@ -2,10 +2,10 @@
 CREATE TABLE users
 (
     id            SERIAL PRIMARY KEY,
-    username      VARCHAR(50) UNIQUE                     NOT NULL,
-    email         VARCHAR(320) UNIQUE                    NOT NULL,
-    password_hash VARCHAR(60)                            NOT NULL,
+    login         TEXT UNIQUE NOT NULL,
+    password_hash TEXT        NOT NULL,
     image_id      INTEGER,
+    is_admin      BOOLEAN     NOT NULL     DEFAULT FALSE,
     created_at    TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
     deleted_at    TIMESTAMP WITH TIME ZONE,
 

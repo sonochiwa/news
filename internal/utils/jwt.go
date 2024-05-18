@@ -12,7 +12,7 @@ import (
 
 type tokenClaims struct {
 	jwt.StandardClaims
-	Email string `json:"email"`
+	Login string `json:"login"`
 }
 
 func GenerateJWT(email string) (string, error) {
@@ -46,5 +46,5 @@ func ParseToken(accessToken string) (string, error) {
 		return "", errors.New("invalid token")
 	}
 
-	return claims.Email, nil
+	return claims.Login, nil
 }
