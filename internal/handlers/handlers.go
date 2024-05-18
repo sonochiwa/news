@@ -28,6 +28,11 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 
 	api := router.Group("/api")
 	{
+		posts := api.Group("/posts")
+		{
+			posts.GET("/", h.getAllPosts)
+		}
+
 		categories := api.Group("/categories")
 		{
 			categories.GET("/", h.getAllCategories)
@@ -35,10 +40,11 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 
 		languages := api.Group("/languages")
 		{
-			languages.GET("", h.getAllLanguages)
+			languages.GET("/", h.getAllLanguages)
 		}
 
-		authorized := router.Group("/api", middleware.AuthMiddleware())
+		authorized := router.Group("/api") //middleware.AuthMiddleware()
+
 		{
 			users := authorized.Group("/users")
 			{
