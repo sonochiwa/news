@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -37,7 +36,13 @@ func (h *Handlers) signUp(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": r})
+	token, err := utils.GenerateJWT(r.Login)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"token": token})
 }
 
 func (h *Handlers) signIn(c *gin.Context) {
@@ -60,8 +65,6 @@ func (h *Handlers) signIn(c *gin.Context) {
 	}
 
 	user, _ := h.service.Users.GetUserByLogin(input.Login)
-
-	fmt.Println(user.Login)
 
 	token, err := utils.GenerateJWT(user.Login)
 	if err != nil {

@@ -14,10 +14,15 @@ type Instance interface {
 	Ping() error
 	Query(query string, args ...interface{}) (*sql.Rows, error)
 	QueryRow(query string, args ...interface{}) *sql.Row
+	DB() *sql.DB
 }
 
 type Postgres struct {
 	db *sql.DB
+}
+
+func (p *Postgres) DB() *sql.DB {
+	return p.db
 }
 
 func (p *Postgres) Connect(config configs.Postgres) error {

@@ -16,10 +16,20 @@ type Services interface {
 	CreateUser(user *models.User) (*models.User, error)
 	CheckUser(email string) (result *models.SignInUser, err error)
 	GetUserByLogin(email string) (result *models.UserMe, err error)
+	UpdateUserPhoto(userID int, imagePath string) (err error)
 }
 
 func New(repository repositories.Repositories) Services {
 	return &Service{repository: repository}
+}
+
+func (s *Service) UpdateUserPhoto(userID int, imagePath string) (err error) {
+	err = s.repository.Users.UpdateUserPhoto(userID, imagePath)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *Service) GetAllUsers() (*[]models.User, error) {

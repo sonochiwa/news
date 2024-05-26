@@ -1,6 +1,18 @@
 package users
 
 const (
+	updateUserPhoto = `
+BEGIN;
+
+INSERT INTO images (path) VALUES ($2);
+
+SELECT id FROM images WHERE path = $2 ORDER BY id DESC LIMIT 1;
+
+UPDATE users AS u SET image_id = (SELECT id FROM images WHERE path = $2 ORDER BY id DESC LIMIT 1) WHERE u.id = $1;
+
+COMMIT;
+`
+
 	getAllUser = `
 SELECT json_agg(row_to_json(users))
 FROM (SELECT id, login, image_id, created_at, deleted_at

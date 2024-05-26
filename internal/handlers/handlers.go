@@ -18,6 +18,8 @@ func New(service services.Services) *Handlers {
 func (h *Handlers) InitRoutes() *gin.Engine {
 	router := gin.New()
 
+	router.MaxMultipartMemory = 8 << 20
+
 	router.Use(static.Serve("/images", static.LocalFile("./public", true)))
 
 	router.Use(gin.Logger())
@@ -38,6 +40,7 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 
 	authorizedApi := router.Group("/api", middleware.AuthMiddleware())
 	{
+		authorizedApi.POST("/upload/img", h.updateUserPhoto)
 		authorizedApi.GET("/users", h.getAllUsers)
 		authorizedApi.GET("/users/:id", h.getUserByID)
 		authorizedApi.GET("/users/me", h.getMe)
