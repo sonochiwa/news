@@ -59,7 +59,7 @@ func (h *Handlers) signIn(c *gin.Context) {
 		return
 	}
 
-	user, _ := h.service.Users.GetUserByEmail(input.Login)
+	user, _ := h.service.Users.GetUserByLogin(input.Login)
 
 	fmt.Println(user.Login)
 

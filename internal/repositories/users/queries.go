@@ -33,12 +33,14 @@ WHERE login = $1
 AND deleted_at IS NULL) users
 `
 
-	getUserByEmail = `
+	getUserByLogin = `
 SELECT (row_to_json(users))
 FROM (
-SELECT id, login, password_hash as password
-FROM users AS u
-WHERE login = $1
-AND deleted_at IS NULL) users
+	SELECT u.id, u.login, i.path as image_path
+	FROM users AS u
+	LEFT JOIN images AS i ON u.image_id = i.id 
+	WHERE login = $1
+	AND deleted_at IS NULL
+) users
 `
 )

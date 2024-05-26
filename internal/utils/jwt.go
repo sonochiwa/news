@@ -15,7 +15,7 @@ type tokenClaims struct {
 	Login string `json:"login"`
 }
 
-func GenerateJWT(email string) (string, error) {
+func GenerateJWT(login string) (string, error) {
 	secret := configs.GlobalConfig.Auth.SecretKey
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
@@ -23,7 +23,7 @@ func GenerateJWT(email string) (string, error) {
 			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
 			IssuedAt:  time.Now().Unix(),
 		},
-		email,
+		login,
 	})
 
 	return token.SignedString([]byte(secret))

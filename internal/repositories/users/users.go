@@ -18,7 +18,7 @@ type Repository interface {
 	GetUserByID(id int64) (*models.User, error)
 	CreateUser(user *models.User) (result *models.User, err error)
 	CheckUser(email string) (*models.SignInUser, error)
-	GetUserByEmail(email string) (*models.User, error)
+	GetUserByLogin(email string) (*models.UserMe, error)
 }
 
 func New(db postgres.Instance) Repository {
@@ -93,10 +93,10 @@ func (p *Postgres) CheckUser(email string) (result *models.SignInUser, err error
 	return result, nil
 }
 
-func (p *Postgres) GetUserByEmail(email string) (result *models.User, err error) {
+func (p *Postgres) GetUserByLogin(email string) (result *models.UserMe, err error) {
 	var bytes []byte
 
-	err = p.db.QueryRow(getUserByEmail, email).Scan(&bytes)
+	err = p.db.QueryRow(getUserByLogin, email).Scan(&bytes)
 	if err != nil {
 		return nil, err
 	}

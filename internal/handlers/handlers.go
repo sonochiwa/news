@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/sonochiwa/news/internal/middleware"
 	"github.com/sonochiwa/news/internal/services"
@@ -16,6 +17,8 @@ func New(service services.Services) *Handlers {
 
 func (h *Handlers) InitRoutes() *gin.Engine {
 	router := gin.New()
+
+	router.Use(static.Serve("/images", static.LocalFile("./public", true)))
 
 	router.Use(gin.Logger())
 	router.Use(middleware.CORSMiddleware())
@@ -33,10 +36,11 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 		api.GET("/languages", h.getAllLanguages)
 	}
 
-	authorizedApi := router.Group("/api") //middleware.AuthMiddleware()
+	authorizedApi := router.Group("/api", middleware.AuthMiddleware())
 	{
-		authorizedApi.GET("/", h.getAllUsers)
-		authorizedApi.GET("/:id", h.getUserByID)
+		authorizedApi.GET("/users", h.getAllUsers)
+		authorizedApi.GET("/users/:id", h.getUserByID)
+		authorizedApi.GET("/users/me", h.getMe)
 	}
 
 	return router
