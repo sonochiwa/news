@@ -35,7 +35,6 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 	{
 		api.GET("/posts", h.getAllPosts)
 		api.GET("/categories", h.getAllCategories)
-		api.GET("/languages", h.getAllLanguages)
 	}
 
 	authorizedApi := router.Group("/api", middleware.AuthMiddleware())
