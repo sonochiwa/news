@@ -12,17 +12,22 @@ type Postgres struct {
 }
 
 type Repository interface {
-	GetAllPosts() (*[]models.Post, error)
+	GetAllPosts(filter string) (*[]models.Post, error)
 }
 
 func New(db postgres.Instance) Repository {
 	return &Postgres{db: db}
 }
 
-func (p *Postgres) GetAllPosts() (result *[]models.Post, err error) {
+func (p *Postgres) GetAllPosts(filter string) (result *[]models.Post, err error) {
 	var bytes []byte
 
-	err = p.db.QueryRow(getAllPosts).Scan(&bytes)
+	if len(filter) > 0 {
+		err = p.db.QueryRow(getAllPostsWithFilter, "%"+filter+"%").Scan(&bytes)
+	} else {
+		err = p.db.QueryRow(getAllPosts).Scan(&bytes)
+	}
+
 	if err != nil {
 		return nil, err
 	}
