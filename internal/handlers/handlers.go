@@ -35,6 +35,7 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 	{
 		api.GET("/posts", h.getAllPosts)
 		api.POST("/posts", h.newPost)
+		api.DELETE("/posts/:id", h.deletePost)
 		api.GET("/categories", h.getAllCategories)
 		api.GET("/countries", h.getAllCountries)
 	}

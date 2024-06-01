@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sonochiwa/news/internal/models"
@@ -35,6 +36,18 @@ func (h *Handlers) newPost(c *gin.Context) {
 	}
 
 	err := h.service.Posts.NewPost(input)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, "ok")
+}
+
+func (h *Handlers) deletePost(c *gin.Context) {
+	parsedID, err := strconv.Atoi(c.Param("id"))
+
+	err = h.service.Posts.DeletePost(parsedID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return

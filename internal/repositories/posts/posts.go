@@ -2,6 +2,7 @@ package posts
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/sonochiwa/news/internal/instances/postgres"
 	"github.com/sonochiwa/news/internal/models"
@@ -16,6 +17,7 @@ type Postgres struct {
 type Repository interface {
 	GetAllPosts(filter, category, country *string) (*[]models.Post, error)
 	NewPost(input models.NewPost) error
+	DeletePost(id int) (err error)
 }
 
 func New(db postgres.Instance) Repository {
@@ -41,7 +43,18 @@ func (p *Postgres) GetAllPosts(filter, category, country *string) (result *[]mod
 func (p *Postgres) NewPost(input models.NewPost) (err error) {
 	var bytes []byte
 
-	err = p.db.QueryRow(newPost, input.Title, input.Body, input.Category, input.Country, input.CountryTag).Scan(&bytes)
+	err = p.db.QueryRow(newPost, input.Title, input.Body, strings.ToLower(input.Category), input.Country, strings.ToLower(input.CountryTag)).Scan(&bytes)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (p *Postgres) DeletePost(id int) error {
+	var bytes []byte
+
+	err := p.db.QueryRow("delete from posts where id = $1 returning id", id).Scan(&bytes)
 	if err != nil {
 		return err
 	}

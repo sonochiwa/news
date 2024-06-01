@@ -14,6 +14,7 @@ FROM (SELECT p.id         as id,
 	  WHERE ($1::text IS NULL OR $1 = '' OR p.title ILIKE concat('%', $1::text, '%'))
       AND ($2::text IS NULL OR $2 = '' OR p.category = $2::text)
       AND ($3::text IS NULL OR $3 = '' OR p.country_tag = $3::text)
+	  ORDER BY created_at
       ) posts
 `
 
