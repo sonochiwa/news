@@ -34,6 +34,7 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 	api := router.Group("/api")
 	{
 		api.GET("/posts", h.getAllPosts)
+		api.POST("/posts", h.newPost)
 		api.GET("/categories", h.getAllCategories)
 	}
 

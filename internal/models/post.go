@@ -10,3 +10,10 @@ type Post struct {
 	Country   string    `json:"country"`
 	Category  string    `json:"category"`
 }
+
+type NewPost struct {
+	Title    string `json:"title"`
+	Body     string `json:"body"`
+	Country  string `json:"country"`
+	Category string `json:"category"`
+}

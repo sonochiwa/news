@@ -14,4 +14,9 @@ FROM (SELECT p.id         as id,
       AND ($2::text IS NULL OR $2 = '' OR p.category = $2::text)
       ) posts
 `
+
+	newPost = `
+	INSERT INTO posts (id, title, body, category, country, created_at) 
+	VALUES (DEFAULT, $1, $2, $3, $4, DEFAULT)
+`
 )

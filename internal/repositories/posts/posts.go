@@ -15,6 +15,7 @@ type Postgres struct {
 
 type Repository interface {
 	GetAllPosts(filter, category *string) (*[]models.Post, error)
+	NewPost(input models.NewPost) error
 }
 
 func New(db postgres.Instance) Repository {
@@ -35,4 +36,15 @@ func (p *Postgres) GetAllPosts(filter, category *string) (result *[]models.Post,
 	}
 
 	return result, nil
+}
+
+func (p *Postgres) NewPost(input models.NewPost) (err error) {
+	var bytes []byte
+
+	err = p.db.QueryRow(newPost, input.Title, input.Body, input.Category, input.Country).Scan(&bytes)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
