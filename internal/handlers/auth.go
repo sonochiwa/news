@@ -53,7 +53,6 @@ func (h *Handlers) signIn(c *gin.Context) {
 	}
 
 	cred, err := h.service.Users.CheckUser(input.Login)
-
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

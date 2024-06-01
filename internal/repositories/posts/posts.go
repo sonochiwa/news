@@ -1,6 +1,8 @@
 package posts
 
 import (
+	"fmt"
+
 	"github.com/sonochiwa/news/internal/instances/postgres"
 	"github.com/sonochiwa/news/internal/models"
 
@@ -12,29 +14,24 @@ type Postgres struct {
 }
 
 type Repository interface {
-	GetAllPosts(filter string) (*[]models.Post, error)
+	GetAllPosts(filter, category *string) (*[]models.Post, error)
 }
 
 func New(db postgres.Instance) Repository {
 	return &Postgres{db: db}
 }
 
-func (p *Postgres) GetAllPosts(filter string) (result *[]models.Post, err error) {
+func (p *Postgres) GetAllPosts(filter, category *string) (result *[]models.Post, err error) {
 	var bytes []byte
 
-	if len(filter) > 0 {
-		err = p.db.QueryRow(getAllPostsWithFilter, "%"+filter+"%").Scan(&bytes)
-	} else {
-		err = p.db.QueryRow(getAllPosts).Scan(&bytes)
-	}
-
+	err = p.db.QueryRow(getAllPosts, *filter, *category).Scan(&bytes)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("repository: %w", err)
 	}
 
 	err = json.Unmarshal(bytes, &result)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("repository json.Unmarshal: %w", err)
 	}
 
 	return result, nil
