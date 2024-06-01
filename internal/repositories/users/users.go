@@ -21,6 +21,7 @@ type Repository interface {
 	CheckUser(email string) (*models.SignInUser, error)
 	GetUserByLogin(email string) (*models.UserMe, error)
 	UpdateUserPhoto(userID int, imagePath string) (err error)
+	PatchUserByLogin(login, language string) (err error)
 }
 
 func New(db postgres.Instance) Repository {
@@ -144,4 +145,15 @@ func (p *Postgres) GetUserByLogin(email string) (result *models.UserMe, err erro
 	}
 
 	return result, nil
+}
+
+func (p *Postgres) PatchUserByLogin(login, language string) (err error) {
+	var bytes []byte
+
+	err = p.db.QueryRow(patchUserByLogin, login, language).Scan(&bytes)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

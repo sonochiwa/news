@@ -34,10 +34,10 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 	api := router.Group("/api")
 	{
 		api.GET("/posts", h.getAllPosts)
-		api.POST("/posts", h.newPost)
-		api.DELETE("/posts/:id", h.deletePost)
 		api.GET("/categories", h.getAllCategories)
 		api.GET("/countries", h.getAllCountries)
+		api.POST("/posts", h.newPost)
+		api.DELETE("/posts/:id", h.deletePost)
 	}
 
 	authorizedApi := router.Group("/api", middleware.AuthMiddleware())
@@ -46,6 +46,7 @@ func (h *Handlers) InitRoutes() *gin.Engine {
 		authorizedApi.GET("/users", h.getAllUsers)
 		authorizedApi.GET("/users/:id", h.getUserByID)
 		authorizedApi.GET("/users/me", h.getMe)
+		authorizedApi.PATCH("/users/me", h.updateMyLanguage)
 	}
 
 	return router

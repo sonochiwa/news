@@ -35,11 +35,18 @@ AND deleted_at IS NULL) users
 	getUserByLogin = `
 SELECT (row_to_json(users))
 FROM (
-	SELECT u.id, u.login, i.path as image_path
+	SELECT u.id, u.login, i.path as image_path, u.created_at, u.language
 	FROM users AS u
 	LEFT JOIN images AS i ON u.image_id = i.id 
 	WHERE login = $1
 	AND deleted_at IS NULL
 ) users
+`
+
+	patchUserByLogin = `
+UPDATE users
+SET language = $2
+WHERE login = $1
+RETURNING id;
 `
 )

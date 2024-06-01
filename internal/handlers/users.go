@@ -103,13 +103,13 @@ func (h Handlers) getMe(c *gin.Context) {
 		return
 	}
 
-	username, err := utils.ParseToken(tokenParts[1])
+	login, err := utils.ParseToken(tokenParts[1])
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
-	result, err := h.service.Users.GetUserByLogin(username)
+	result, err := h.service.Users.GetUserByLogin(login)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
@@ -120,4 +120,34 @@ func (h Handlers) getMe(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, result)
+}
+
+func (h Handlers) updateMyLanguage(c *gin.Context) {
+	header := c.GetHeader("Authorization")
+	if header == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "authorization token required"})
+		c.Abort()
+		return
+	}
+
+	tokenParts := strings.Split(header, " ")
+	if len(tokenParts) != 2 {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid auth header"})
+		c.Abort()
+		return
+	}
+
+	login, err := utils.ParseToken(tokenParts[1])
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	err = h.service.Users.PatchUserByLogin(login, c.Query("language"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, "ok")
 }

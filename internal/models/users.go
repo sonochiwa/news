@@ -12,10 +12,11 @@ type User struct {
 }
 
 type UserMe struct {
-	ID        int64     `json:"id"`
-	Login     string    `json:"login"`
-	ImagePath *string   `json:"image_path"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        int64      `json:"id"`
+	Login     string     `json:"login"`
+	ImagePath *string    `json:"image_path"`
+	CreatedAt *time.Time `json:"created_at"`
+	Language  string     `json:"language"`
 }
 
 type SignInUser struct {
