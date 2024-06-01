@@ -12,7 +12,7 @@ type Service struct {
 }
 
 type Services interface {
-	GetAllPosts(filter, category *string) (*[]models.Post, error)
+	GetAllPosts(filter, category, country *string) (*[]models.Post, error)
 	NewPost(input models.NewPost) error
 }
 
@@ -20,8 +20,8 @@ func New(repository repositories.Repositories) Services {
 	return &Service{repository: repository}
 }
 
-func (s *Service) GetAllPosts(filter, category *string) (*[]models.Post, error) {
-	posts, err := s.repository.Posts.GetAllPosts(filter, category)
+func (s *Service) GetAllPosts(filter, category, country *string) (*[]models.Post, error) {
+	posts, err := s.repository.Posts.GetAllPosts(filter, category, country)
 	if err != nil {
 		return nil, fmt.Errorf("service: %w", err)
 	}

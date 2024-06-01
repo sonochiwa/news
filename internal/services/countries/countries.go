@@ -1,4 +1,4 @@
-package categories
+package countries
 
 import (
 	"github.com/sonochiwa/news/internal/models"
@@ -10,14 +10,15 @@ type Service struct {
 }
 
 type Services interface {
-	GetAllCategories() (*[]models.Category, error)
+	GetAllCountries() (*[]models.Country, error)
 }
 
 func New(repository repositories.Repositories) Services {
 	return &Service{repository: repository}
 }
 
-func (s *Service) GetAllCategories() (*[]models.Category, error) {
-	categories, _ := s.repository.Categories.GetAllCategories()
-	return categories, nil
+func (s *Service) GetAllCountries() (*[]models.Country, error) {
+	countries, _ := s.repository.Countries.GetAllCountries()
+
+	return countries, nil
 }

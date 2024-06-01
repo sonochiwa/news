@@ -1,5 +1,5 @@
 package models
 
-type Categories struct {
+type Category struct {
 	Title string `json:"title"`
 }

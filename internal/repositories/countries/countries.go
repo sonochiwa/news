@@ -1,4 +1,4 @@
-package categories
+package countries
 
 import (
 	"github.com/sonochiwa/news/internal/instances/postgres"
@@ -12,17 +12,17 @@ type Postgres struct {
 }
 
 type Repository interface {
-	GetAllCategories() (*[]models.Category, error)
+	GetAllCountries() (*[]models.Country, error)
 }
 
 func New(db postgres.Instance) Repository {
 	return &Postgres{db: db}
 }
 
-func (p *Postgres) GetAllCategories() (result *[]models.Category, err error) {
+func (p *Postgres) GetAllCountries() (result *[]models.Country, err error) {
 	var bytes []byte
 
-	err = p.db.QueryRow(getAllCategories).Scan(&bytes)
+	err = p.db.QueryRow(getAllCountries).Scan(&bytes)
 	if err != nil {
 		return nil, err
 	}

@@ -14,7 +14,7 @@ type Postgres struct {
 }
 
 type Repository interface {
-	GetAllPosts(filter, category *string) (*[]models.Post, error)
+	GetAllPosts(filter, category, country *string) (*[]models.Post, error)
 	NewPost(input models.NewPost) error
 }
 
@@ -22,10 +22,10 @@ func New(db postgres.Instance) Repository {
 	return &Postgres{db: db}
 }
 
-func (p *Postgres) GetAllPosts(filter, category *string) (result *[]models.Post, err error) {
+func (p *Postgres) GetAllPosts(filter, category, country *string) (result *[]models.Post, err error) {
 	var bytes []byte
 
-	err = p.db.QueryRow(getAllPosts, *filter, *category).Scan(&bytes)
+	err = p.db.QueryRow(getAllPosts, *filter, *category, *country).Scan(&bytes)
 	if err != nil {
 		return nil, fmt.Errorf("repository: %w", err)
 	}
@@ -41,7 +41,7 @@ func (p *Postgres) GetAllPosts(filter, category *string) (result *[]models.Post,
 func (p *Postgres) NewPost(input models.NewPost) (err error) {
 	var bytes []byte
 
-	err = p.db.QueryRow(newPost, input.Title, input.Body, input.Category, input.Country).Scan(&bytes)
+	err = p.db.QueryRow(newPost, input.Title, input.Body, input.Category, input.Country, input.CountryTag).Scan(&bytes)
 	if err != nil {
 		return err
 	}
