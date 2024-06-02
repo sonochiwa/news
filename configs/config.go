@@ -15,10 +15,15 @@ type Config struct {
 	Auth     Auth
 	Server   Server
 	Postgres Postgres
+	Other    Other
 }
 
 type Auth struct {
 	SecretKey string
+}
+
+type Other struct {
+	LibreDomain string
 }
 
 type Server struct {
@@ -62,6 +67,9 @@ func New() Config {
 			Port:     getString("PG_PORT"),
 			DBName:   getString("PG_DBNAME"),
 			SSLMode:  getString("PG_SSL_MODE"),
+		},
+		Other: Other{
+			LibreDomain: getString("LIBRE_DOMAIN"),
 		},
 	}
 

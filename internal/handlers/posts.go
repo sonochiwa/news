@@ -9,12 +9,12 @@ import (
 )
 
 func (h *Handlers) getAllPosts(c *gin.Context) {
-	var filter, category, country string
-	filter = c.Query("filter")
-	category = c.Query("category")
-	country = c.Query("country")
+	filter := c.Query("filter")
+	category := c.Query("category")
+	country := c.Query("country")
+	language := c.Query("language")
 
-	result, err := h.service.Posts.GetAllPosts(&filter, &category, &country)
+	result, err := h.service.Posts.GetAllPosts(&filter, &category, &country, &language)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
