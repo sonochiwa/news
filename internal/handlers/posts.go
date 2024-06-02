@@ -3,18 +3,41 @@ package handlers
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sonochiwa/news/internal/models"
+	"github.com/sonochiwa/news/internal/utils"
 )
 
 func (h *Handlers) getAllPosts(c *gin.Context) {
 	filter := c.Query("filter")
 	category := c.Query("category")
 	country := c.Query("country")
-	language := c.Query("language")
 
-	result, err := h.service.Posts.GetAllPosts(&filter, &category, &country, &language)
+	user := &models.UserMe{}
+
+	header := c.GetHeader("Authorization")
+	if header == "" {
+		user.Language = "ru"
+	} else {
+		tokenParts := strings.Split(header, " ")
+		if len(tokenParts) != 2 {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid auth header"})
+			c.Abort()
+			return
+		}
+
+		login, err := utils.ParseToken(tokenParts[1])
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+			return
+		}
+
+		user, _ = h.service.Users.GetUserByLogin(login)
+	}
+
+	result, err := h.service.Posts.GetAllPosts(&filter, &category, &country, &user.Language)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return

@@ -16,7 +16,7 @@ type Postgres struct {
 
 type Repository interface {
 	GetAllPosts(filter, category, country, language *string) (*[]models.Post, error)
-	NewPost(input models.NewPost) (postID int, err error)
+	NewPost() (postID int, err error)
 	NewTranslation(postID int, language string, input models.NewPost) (err error)
 	DeletePost(id int) (err error)
 }
@@ -41,11 +41,10 @@ func (p *Postgres) GetAllPosts(filter, category, country, language *string) (res
 	return result, nil
 }
 
-func (p *Postgres) NewPost(input models.NewPost) (postID int, err error) {
+func (p *Postgres) NewPost() (postID int, err error) {
 	var response int
 
-	//err = p.db.QueryRow(newPost, input.Title, input.Body, strings.ToLower(input.Category), input.Country, strings.ToLower(input.CountryTag)).Scan(&bytes)
-	err = p.db.QueryRow(newPost, strings.ToLower(input.CountryTag)).Scan(&response)
+	err = p.db.QueryRow(newPost).Scan(&response)
 	if err != nil {
 		return 0, err
 	}

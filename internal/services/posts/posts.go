@@ -42,7 +42,7 @@ type translationResponse struct {
 func (s *Service) NewPost(input models.NewPost) error {
 	var languages = []string{"ru", "en", "de", "pt", "zh"}
 
-	postID, err := s.repository.Posts.NewPost(input)
+	postID, err := s.repository.Posts.NewPost()
 	if err != nil {
 		return fmt.Errorf("service: %w", err)
 	}

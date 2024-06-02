@@ -10,15 +10,15 @@ type Service struct {
 }
 
 type Services interface {
-	GetAllCountries() (*[]models.Country, error)
+	GetAllCountries(language string) (*[]models.Country, error)
 }
 
 func New(repository repositories.Repositories) Services {
 	return &Service{repository: repository}
 }
 
-func (s *Service) GetAllCountries() (*[]models.Country, error) {
-	countries, _ := s.repository.Countries.GetAllCountries()
+func (s *Service) GetAllCountries(language string) (*[]models.Country, error) {
+	countries, _ := s.repository.Countries.GetAllCountries(language)
 
 	return countries, nil
 }

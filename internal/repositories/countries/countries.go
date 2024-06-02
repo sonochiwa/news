@@ -12,17 +12,17 @@ type Postgres struct {
 }
 
 type Repository interface {
-	GetAllCountries() (*[]models.Country, error)
+	GetAllCountries(language string) (*[]models.Country, error)
 }
 
 func New(db postgres.Instance) Repository {
 	return &Postgres{db: db}
 }
 
-func (p *Postgres) GetAllCountries() (result *[]models.Country, err error) {
+func (p *Postgres) GetAllCountries(language string) (result *[]models.Country, err error) {
 	var bytes []byte
 
-	err = p.db.QueryRow(getAllCountries).Scan(&bytes)
+	err = p.db.QueryRow(getAllCountries, language).Scan(&bytes)
 	if err != nil {
 		return nil, err
 	}
