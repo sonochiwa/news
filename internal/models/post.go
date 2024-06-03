@@ -13,9 +13,8 @@ type Post struct {
 }
 
 type NewPost struct {
-	Title      string `json:"title"`
-	Body       string `json:"body"`
-	Country    string `json:"country"`
-	CountryTag string `json:"country_tag"`
-	Category   string `json:"category"`
+	Title    string `json:"title"`
+	Body     string `json:"body"`
+	Country  string `json:"country"`
+	Category string `json:"category"`
 }

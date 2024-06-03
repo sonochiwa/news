@@ -52,13 +52,40 @@ func (h *Handlers) getAllPosts(c *gin.Context) {
 }
 
 func (h *Handlers) newPost(c *gin.Context) {
+	header := c.GetHeader("Authorization")
+	if header == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "authorization token required"})
+		c.Abort()
+		return
+	}
+
+	tokenParts := strings.Split(header, " ")
+	if len(tokenParts) != 2 {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid auth header"})
+		c.Abort()
+		return
+	}
+
+	login, err := utils.ParseToken(tokenParts[1])
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	user, _ := h.service.Users.GetUserByLogin(login)
+
+	if user.IsAdmin == false {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "you are not admin"})
+		return
+	}
+
 	var input models.NewPost
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	err := h.service.Posts.NewPost(input)
+	err = h.service.Posts.NewPost(input)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
@@ -68,6 +95,33 @@ func (h *Handlers) newPost(c *gin.Context) {
 }
 
 func (h *Handlers) deletePost(c *gin.Context) {
+	header := c.GetHeader("Authorization")
+	if header == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "authorization token required"})
+		c.Abort()
+		return
+	}
+
+	tokenParts := strings.Split(header, " ")
+	if len(tokenParts) != 2 {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid auth header"})
+		c.Abort()
+		return
+	}
+
+	login, err := utils.ParseToken(tokenParts[1])
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	user, _ := h.service.Users.GetUserByLogin(login)
+
+	if user.IsAdmin == false {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "you are not admin"})
+		return
+	}
+
 	parsedID, err := strconv.Atoi(c.Param("id"))
 
 	err = h.service.Posts.DeletePost(parsedID)

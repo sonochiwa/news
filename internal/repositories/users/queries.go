@@ -35,7 +35,7 @@ AND deleted_at IS NULL) users
 	getUserByLogin = `
 SELECT (row_to_json(users))
 FROM (
-	SELECT u.id, u.login, i.path as image_path, u.created_at, u.language
+	SELECT u.id, u.login, i.path as image_path, u.created_at, u.language, u.is_admin
 	FROM users AS u
 	LEFT JOIN images AS i ON u.image_id = i.id 
 	WHERE login = $1

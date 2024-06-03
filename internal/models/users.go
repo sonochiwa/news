@@ -17,6 +17,7 @@ type UserMe struct {
 	ImagePath *string    `json:"image_path"`
 	CreatedAt *time.Time `json:"created_at"`
 	Language  string     `json:"language"`
+	IsAdmin   bool       `json:"is_admin"`
 }
 
 type SignInUser struct {
