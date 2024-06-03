@@ -14,6 +14,7 @@ FROM (SELECT p.id         as id,
       LEFT JOIN translations AS t on t.post_id = p.id
       WHERE ($4::text IS NULL OR $4 = '' OR t.language ILIKE $4::text)
         AND ($1::text IS NULL OR $1 = '' OR t.title ILIKE concat('%', $1::text, '%'))
+        AND ($1::text IS NULL OR $1 = '' OR t.body ILIKE concat('%', $1::text, '%'))
         AND ($2::text IS NULL OR $2 = '' OR t.category ILIKE $2::text)
         AND ($3::text IS NULL OR $3 = '' OR t.country ILIKE $3::text)
       ORDER BY created_at DESC
